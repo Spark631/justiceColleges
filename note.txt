@@ -1,0 +1,81 @@
+    get(child(dbRef, `Seniors/`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        console.log(snapshot.val());
+        const dataArray = snapshot.val();
+
+        dataArray.forEach((element) => {
+          console.log("this is the element" + element.First);
+          console.log("this is their position" + element.Lat, element.Lng);
+
+          const content = document.createElement('div');
+          content.innerHTML = `
+            <div class="infowindow">
+              <h3>${element.First} ${element.Last}</h3>
+              <p>${element.Email}</p>
+            </div>
+          `;
+
+          const infowindow = new google.maps.InfoWindow({
+            content: content,
+          });
+
+          const marker = new google.maps.Marker({
+            position: { lat: element.Lat, lng: element.Lng },
+            map: map,
+            icon: "https://ik.imagekit.io/twkicasuw/Pics/GradBig.png?ik-sdk-version=javascript-1.4.3&updatedAt=1675658089618"
+          });
+
+          marker.addListener('click', () => {
+            infowindow.open(map, marker);
+          });
+        });
+
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
+  -----------
+
+    get(child(dbRef, `Seniors/`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      console.log(snapshot.val());
+      const dataArray = snapshot.val();
+      dataArray.forEach((element) => {
+        console.log("this is the element" + element.First);
+        console.log("this is their position" + element.Lat, element.Lng);
+        const marker = new google.maps.Marker({
+          position: { lat: element.Lat, lng: element.Lng },
+          map: map,
+          icon: "https://ik.imagekit.io/twkicasuw/Pics/GradBig.png?ik-sdk-version=javascript-1.4.3&updatedAt=1675658089618"
+      });
+      
+      marker.addListener('click', () => {
+        const popup = new google.maps.InfoWindow({
+          content: 'This is a popup'
+        });
+        popup.open(map, marker);
+      });
+      });
+      
+    } else {
+      console.log("No data available");
+    }
+  }).catch((error) => {
+    console.error(error);
+  });
+
+
+      get(collegeRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        console.log(snapshot.val());
+        return snapshot.val();
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });

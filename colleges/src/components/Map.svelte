@@ -28,28 +28,23 @@
         zoom: 5,
         center: centerUS,
     });
-    
-  get(child(dbRef, `Seniors/`)).then((snapshot) => {
-    if (snapshot.exists()) {
-      console.log(snapshot.val());
-      const dataArray = snapshot.val();
 
-      dataArray.forEach((element) => {
-        console.log("this is the element" + element.First);
-        console.log("this is their position" + element.Lat, element.Lng);
-        const marker = new google.maps.Marker({
-          position: { lat: element.Lat, lng: element.Lng },
-          map: map,
-          icon: "https://ik.imagekit.io/twkicasuw/Pics/GradBig.png?ik-sdk-version=javascript-1.4.3&updatedAt=1675658089618"
-      });
-      });
-      
-    } else {
-      console.log("No data available");
+    let trueData;
+    let x = getColleges().then((data) => {
+      if (data.exists()) {
+        console.log(data.val());
+        trueData = data.val();
+      } else {
+        console.log("No data available");
+      }
+    })
+
     }
-  }).catch((error) => {
-    console.error(error);
-  });
+
+  function getColleges() {
+    const dbRef = ref(getDatabase());
+    const collegeRef = child(dbRef, 'Colleges');
+    return get(collegeRef)
   }
 
   onMount(async () => {
