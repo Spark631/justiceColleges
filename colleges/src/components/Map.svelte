@@ -67,17 +67,35 @@
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyA8g5g4017HkLoY-2B9x1DIQd4iFXdGJIE&callback=initMap`;
     document.body.appendChild(script);
+    await new Promise((resolve) => {
+    let intervalId = setInterval(() => {
+      if (typeof google !== 'undefined') {
+        clearInterval(intervalId);
+        resolve();
+      }
+    }, 100);
+  });
+
+    initMap();
   });
 
 </script>
   
   <style>
+      html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+
+      }
+
       #map {
       height: 100vh;
       width: 100vw;
+      padding: 0;
+      margin: 0;
+      position: absolute;
       }
   </style>
 
 <div id="map"></div>
-<button on:click={initMap}>Show Map </button>
-<h1>hey this works</h1>
