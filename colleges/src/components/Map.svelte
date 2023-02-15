@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { getDatabase, ref, child, get } from "firebase/database";
   import { initializeApp } from "firebase/app";
+  import { compute_rest_props } from 'svelte/internal';
 
 
   const firebaseConfig = {
@@ -29,17 +30,32 @@
         center: centerUS,
     });
 
-    let trueData;
-    let x = getColleges().then((data) => {
+    let markers = [];
+
+    getColleges().then((data) => {
       if (data.exists()) {
         console.log(data.val());
-        trueData = data.val();
+
+        const x = data.val();
+
+        for (const college in x) {
+          console.log(`${college}: ${x[college].Location.Lat}, ${x[college].Location.Lng}`);
+          
+          const marker = new google.maps.Marker({
+            position: { lat: x[college].Location.Lat, lng: x[college].Location.Lng },
+            map: map,
+            title: `${college}`,
+            icon: "https://ik.imagekit.io/twkicasuw/Pics/GradBig.png?ik-sdk-version=javascript-1.4.3&updatedAt=1675658089618"
+          });
+        }
+
       } else {
         console.log("No data available");
       }
     })
 
     }
+    
 
   function getColleges() {
     const dbRef = ref(getDatabase());
