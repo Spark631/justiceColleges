@@ -3,7 +3,7 @@
   import { getDatabase, ref, child, get } from "firebase/database";
   import { initializeApp } from "firebase/app";
   import { compute_rest_props } from 'svelte/internal';
-
+  import {styleMaps} from '../styleMaps';
 
   const firebaseConfig = {
     apiKey: "AIzaSyAudXEwwxQfoVNDhDdJYBFXjr4tjxZiIWI",
@@ -23,11 +23,16 @@
 
   function initMap() {
     const dbRef = ref(getDatabase());
-    const centerUS = { lat: 43.0902, lng: -94.7129 };
+    const centerUS = { lat: 39.67337, lng: -95.524566};
 
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 5,
         center: centerUS,
+        streetViewControl: false,
+        mapTypeControl: false,
+        // mapId: 'ID610d4d4488e84169',
+        styles: styleMaps
+
     });
 
     let markers = [];
@@ -82,19 +87,19 @@
 </script>
   
   <style>
-      html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
 
       #map {
-      height: 100vh;
-      width: 100vw;
-      padding: 0;
-      margin: 0;
-      position: absolute;
+        position:absolute;
+        top:0;
+        left:0;
+        bottom:0;
+        right:0;
+        height:100%;
       }
   </style>
 
